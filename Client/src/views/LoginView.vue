@@ -12,7 +12,13 @@
 
       <div class="row justify-content-center">
         <div class="col-3">
-          <input class="form-control" type="email" v-model="email" placeholder="Email" required />
+          <input
+            class="form-control"
+            type="email"
+            v-model="email"
+            placeholder="Email"
+            required
+          />
         </div>
         <div class="col-3">
           <input
@@ -28,7 +34,9 @@
         </div>
       </div>
     </form>
-    <p class="mt-4 text-center">No account? <a href="/register">Register</a> first!</p>
+    <p class="mt-4 text-center">
+      No account? <a href="/register">Register</a> first!
+    </p>
     <p class="mt-auto text-center">&copy; 2022 Robert Baumgartner</p>
   </div>
 </template>
@@ -43,20 +51,15 @@ let valid = ref(true);
 
 let email = ref('john@gmail.com');
 let password = ref('1234');
+const userStore = useUserStore();
 
 const login = async () => {
-  try {
-    const response = await axios.post('/api/login', {
-      email: email.value,
-      password: password.value,
-    });
-    useUserStore(store => {
-      store.saveUserData(response.data);
-    });
-    router.push('/');
-  } catch (error) {
-    valid.value = false;
-  }
+  const response = await axios.post('/api/login', {
+    email: email.value,
+    password: password.value,
+  });
+  userStore.saveUserData(response.data.id, response.data.name);
+  router.push('/account');
 };
 </script>
 

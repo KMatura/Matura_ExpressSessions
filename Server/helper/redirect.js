@@ -1,5 +1,6 @@
 const redirectLogin = (req, res, next) => {
-  if (!req.session.userid) res.status(400).send('You are not logged in!');
+  console.log(req.session);
+  if (!req.session.userId) res.status(400).send('You are not logged in!');
   else next();
 };
 

@@ -42,4 +42,4 @@ app.use('/api', routes);
 app.use(errorHandler);
 app.use(notFoundHandler);
 
-app.listen( PORT ?? 5000, () => console.log('server running'));
+app.listen( PORT ?? 5000, () => console.log(`server running on port ${PORT}`) );
