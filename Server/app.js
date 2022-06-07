@@ -6,6 +6,8 @@ import path from 'path';
 import routes from './routes/index.js';
 import session from 'express-session';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
+import cors from 'cors';
+import pgSimple from 'connect-pg-simple';
 
 dotenv.config();
 

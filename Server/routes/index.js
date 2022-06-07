@@ -12,4 +12,6 @@ router.post('/register', register);
 
 router.get('/users/:id/secret', redirectLogin, getSecret);
 
+router.get('/isauthenticated', isauthenticated);
+
 export default router;

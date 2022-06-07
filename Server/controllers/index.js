@@ -40,4 +40,15 @@ const getSecret = (req, res) => {
   res.status(200).send(user.secret);
 };
 
-export { login, logout, register, getSecret };
+const redirectLogin = (req, res, next) => {
+  console.log(req.session);
+  if (!req.session.userid) res.status(400).send('You are not logged in!');
+  else next();
+};
+
+const isauthenticated = (req, res) => {
+  if (req.session.userid) return true;
+  return false;
+};
+
+export { login, logout, register, getSecret, redirectLogin };
