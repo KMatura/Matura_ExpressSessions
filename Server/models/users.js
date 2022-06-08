@@ -1,22 +1,5 @@
 import query from '../db/index.js'
 
-// export const users = [
-//   {
-//     id: 2,
-//     name: 'Sandy',
-//     email: 'sandy@gmail.com',
-//     password: '1234',
-//     secret: 'Hates Deutschrap',
-//   },
-//   {
-//     id: 3,
-//     name: 'Willy',
-//     email: 'willy@gmail.com',
-//     password: '1234',
-//     secret: 'Sleeps with a gun under his pillow',
-//   },
-// ];
-
 const dbPostUser = async ({ name, email, password, secret }) => {
   const { rows } = await query(
     'INSERT INTO users(name, email, password, secret) values ($1, $2, $3, $4) returning *',

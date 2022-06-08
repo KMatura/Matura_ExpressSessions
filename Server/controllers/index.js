@@ -4,11 +4,12 @@ import bcrypt from 'bcrypt';
 
 const login = async (req, res) => {
   const users = await dbGetUsers();
-  console.log(users);
   if(!validateLogin(req.body)) return res.status(400).send('Invalid data!');
-  const user = users.find(async (u) => u.email === req.body.email && await bcrypt.compare(u.password, req.body.password));
+  console.log(req.body.password);
+  const user = users.find(async (u) => u.email === req.body.email && await bcrypt.compare(req.body.password, u.password));
+  console.log(user);
   if (!user) return res.status(404).send('Server error!');
-  if (!await bcrypt.compare(user.password, req.body.password)) return res.status(401).send('Invalid password!');
+  if (await bcrypt.compare(req.body.password, user.password) == false) return res.status(401).send('Invalid password!');
   if(user){
     const { uid, name } = user;
     req.session.userId = user.uid;
@@ -30,6 +31,9 @@ const register = async (req, res) => {
 
   const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
+  console.log(hashedPassword);
+  console.log(await bcrypt.compare(req.body.password, hashedPassword));
+
   const newUser = {
     name: req.body.name,
     email: req.body.email,
@@ -40,8 +44,9 @@ const register = async (req, res) => {
   res.status(200).send(response);
 };
 
-const getSecret = (req, res) => {
-  const user = users.find((el) => el.id === Number(req.params.id));
+const getSecret = async (req, res) => {
+  const users = await dbGetUsers();
+  const user = users.find((el) => el.uid === Number(req.params.id));
   if (!user) return res.status(404).send('Server error!');
   res.status(200).send(user.secret);
 };

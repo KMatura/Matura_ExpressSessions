@@ -4,8 +4,8 @@ POST http://localhost:3000/api/login
 Content-Type: application/json
 
 {
-    "email": "john@gmail.com",
-    "password": "1234"
+    "email": "matura.k04@htlwienwest.at",
+    "password": "123"
 }
 ################################
 POST http://localhost:3000/api/register
@@ -14,6 +14,6 @@ Content-Type: application/json
 {
     "name": "John",
     "email": "john@gmail.com",
-    "password": "1234",
+    "password": "12345",
     "secret": "Likes Justin Biber"
 }

@@ -10,8 +10,8 @@
         </div>
       </div>
 
-      <div class="row justify-content-center">
-        <div class="col-3">
+      <div class="row reg-form justify-content-center">
+        <div class="col-3 r-el">
           <input
             class="form-control"
             type="email"
@@ -20,7 +20,7 @@
             required
           />
         </div>
-        <div class="col-3">
+        <div class="col-3 r-el">
           <input
             class="form-control"
             type="password"
@@ -29,7 +29,7 @@
             required
           />
         </div>
-        <div class="col-1 text-end">
+        <div class="col-1 text-end r-btn">
           <button class="btn btn-primary">Login</button>
         </div>
       </div>
@@ -58,9 +58,33 @@ const login = async () => {
     email: email.value,
     password: password.value,
   });
-  userStore.saveUserData(response.data.id, response.data.name);
+  userStore.saveUserData(response.data.uid, response.data.name);
   router.push('/account');
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+@media (min-width: 768px) {
+  .reg-form {
+    flex-direction: row;
+  }
+}
+@media (max-width: 768px) {
+  .reg-form {
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .r-el {
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+    margin-bottom: 1vh;
+  }
+  .r-btn{
+    margin-left: auto;
+    margin-right: auto;
+    width: 25%
+  }
+}
+</style>
