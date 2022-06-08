@@ -1,5 +1,5 @@
 import express from 'express';
-import { login, logout, register, getSecret } from '../controllers/index.js';
+import { login, logout, register, getSecret, isauthenticated } from '../controllers/index.js';
 import { redirectLogin } from '../helper/redirect.js';
 
 const router = express.Router();

@@ -12,6 +12,7 @@
   "author": "RB",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "colors": "^1.4.0",
     "cors": "^2.8.5",
     "dotenv": "^14.2.0",
@@ -19,7 +20,8 @@
     "express-session": "^1.17.3",
     "helmet": "^5.0.1",
     "is-my-json-valid": "^2.20.6",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "pg": "^8.7.3"
   },
   "devDependencies": {
     "eslint": "^8.11.0",

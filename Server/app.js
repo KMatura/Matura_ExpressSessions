@@ -26,6 +26,7 @@ const {PORT, NODE_ENV, SESSION_LIFETIME, SESSION_NAME, SESSION_SECRET } = proces
 
 app.use(
   session({
+    store: new (pgSimple(session))(),
     secret: SESSION_SECRET,
     name: SESSION_NAME,
     saveUninitialized: false,

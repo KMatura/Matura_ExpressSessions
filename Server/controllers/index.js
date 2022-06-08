@@ -1,15 +1,18 @@
 import { validateLogin, validateRegister } from './validators.js';
-import { users } from '../models/users.js';
+import { dbPostUser, dbGetUsers } from '../models/users.js';
+import bcrypt from 'bcrypt';
 
-const login = (req, res) => {
+const login = async (req, res) => {
+  const users = await dbGetUsers();
+  console.log(users);
   if(!validateLogin(req.body)) return res.status(400).send('Invalid data!');
-  const user = users.find((u) => u.email === req.body.email && u.password === req.body.password);
+  const user = users.find(async (u) => u.email === req.body.email && await bcrypt.compare(u.password, req.body.password));
   if (!user) return res.status(404).send('Server error!');
-  if (user.password !== req.body.password) return res.status(401).send('Invalid password!');
+  if (!await bcrypt.compare(user.password, req.body.password)) return res.status(401).send('Invalid password!');
   if(user){
-    const { id, name } = user;
-    req.session.userId = user.id;
-    return res.status(200).json({id, name});
+    const { uid, name } = user;
+    req.session.userId = user.uid;
+    return res.status(200).json({uid, name});
   }
 };
 
@@ -19,19 +22,22 @@ const logout = (req, res) => {
   return res.status(200).send('Logout success!');
 };
 
-const register = (req, res) => {
+const register = async (req, res) => {
+  const users = await dbGetUsers();
   if(!validateRegister(req.body)) return res.status(400).send('Invalid data!');
   const user = users.find((u) => u.email === req.body.email);
   if (user) return res.status(400).send('User already exists!');
+
+  const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
   const newUser = {
-    id: users.length + 1,
     name: req.body.name,
     email: req.body.email,
-    password: req.body.password,
-    secret: '',
+    password: hashedPassword,
+    secret: req.body.secret,
   };
-  users.push(newUser);
-  res.status(200).send(newUser, 'registered');
+  const response = await dbPostUser(newUser)
+  res.status(200).send(response);
 };
 
 const getSecret = (req, res) => {
@@ -51,4 +57,4 @@ const isauthenticated = (req, res) => {
   return false;
 };
 
-export { login, logout, register, getSecret, redirectLogin };
+export { login, logout, register, getSecret, redirectLogin, isauthenticated };

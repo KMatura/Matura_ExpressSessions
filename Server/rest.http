@@ -1,9 +1,19 @@
-GET http://localhost:3000/api/users/1/secret
+GET http://localhost:3000/api/users
 ################################
 POST http://localhost:3000/api/login
 Content-Type: application/json
 
 {
     "email": "john@gmail.com",
-    "password": "sex69"
+    "password": "1234"
+}
+################################
+POST http://localhost:3000/api/register
+Content-Type: application/json
+
+{
+    "name": "John",
+    "email": "john@gmail.com",
+    "password": "1234",
+    "secret": "Likes Justin Biber"
 }
