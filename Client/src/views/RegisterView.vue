@@ -62,12 +62,15 @@
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
+import { useRouter } from 'vue-router';
 
 let name = ref('');
 let email = ref('');
 let password = ref('');
 let message = ref('');
 let secret = ref('')
+
+const router = useRouter();
 
 const register = async () => {
   try {
@@ -78,6 +81,7 @@ const register = async () => {
       secret: secret.value,
     });
     message.value = data;
+    router.push('/login');
   } catch (error) {
     if (error.response.status === 404) message.value = 'Server antwortet nicht';
     else message.value = error.response.data;

@@ -1,14 +1,11 @@
 import { validateLogin, validateRegister } from './validators.js';
-import { dbPostUser, dbGetUsers } from '../models/users.js';
+import { dbPostUser, dbGetUsers, dbGetUserByEmail } from '../models/users.js';
 import bcrypt from 'bcrypt';
 
 const login = async (req, res) => {
-  const users = await dbGetUsers();
   if(!validateLogin(req.body)) return res.status(400).send('Invalid data!');
-  console.log(req.body.password);
-  const user = users.find(async (u) => u.email === req.body.email && await bcrypt.compare(req.body.password, u.password));
-  console.log(user);
-  if (!user) return res.status(404).send('Server error!');
+  const user = await dbGetUserByEmail(req.body.email);
+  if (!user) return res.status(404).send('Not found!');
   if (await bcrypt.compare(req.body.password, user.password) == false) return res.status(401).send('Invalid password!');
   if(user){
     const { uid, name } = user;
